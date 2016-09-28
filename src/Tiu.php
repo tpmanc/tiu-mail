@@ -1,8 +1,8 @@
 <?php
 namespace tpmanc\tiu;
 
-use tiu\Order;
-use tiu\Message;
+use tpmanc\tiu\Order;
+use tpmanc\tiu\Message;
 
 /**
  * 
