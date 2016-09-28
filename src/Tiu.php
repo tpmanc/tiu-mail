@@ -21,6 +21,9 @@ class Tiu
     {
         $this->stream = imap_open($mailbox, $user, $password);
         $this->info = imap_check($this->stream);
+        if ($this->info === null) {
+            throw new Exception('Connection problem');
+        }
         $this->mailCount = $this->info->Nmsgs;
         return $this;
     }
@@ -48,7 +51,7 @@ class Tiu
                     $body = base64_decode($body);
                     
                     // check if message
-                    preg_match("/Номер сообщения.+(\d+)\./i", $body, $matches);
+                    preg_match("/Номер сообщения.+(\d+)\./Ui", $body, $matches);
                     if (!empty($matches[1])) {
                         $id = $matches[1];
                         $link = $this->getLink($body);
@@ -58,7 +61,7 @@ class Tiu
                     }
 
                     // check if order
-                    preg_match("/Номер нового заказа \— ([0-9]+)\s+</i", $body , $matches);
+                    preg_match("/Номер нового заказа \— ([0-9]+)\s+</Ui", $body , $matches);
                     if (!empty($matches[1])) {
                         $id = $matches[1];
                         $link = $this->getLink($body);
@@ -117,5 +120,10 @@ class Tiu
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    public function close()
+    {
+        imap_close($this->stream);
     }
 }
