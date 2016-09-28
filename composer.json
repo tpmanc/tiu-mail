@@ -1,0 +1,25 @@
+{
+    "name": "tpmanc/tiu-mail",
+    "keywords": ["tiu", "tiu.ru", "mail", "parser"],
+    "description": "Get tiu.ru orders and messages from mailbox",
+    "homepage": "https://github.com/tpmanc/tiu-mail",
+    "license": "BSD-3-Clause",
+    "minimum-stability" : "dev",
+    "authors": [
+        {
+            "name": "tpmanc",
+            "email": "tpxtrime@mail.ru",
+            "homepage": "https://tpmanc.github.io",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"tpmanc\\tiu\\": "src"}
+    },
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
