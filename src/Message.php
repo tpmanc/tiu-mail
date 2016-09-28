@@ -1,7 +1,7 @@
 <?php
 namespace tpmanc\tiu;
 
-use tiu\Item;
+use tpmanc\tiu\Item;
 
 /**
  * Tiu message
