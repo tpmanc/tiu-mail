@@ -1,8 +1,8 @@
 {
-    "name": "tpmanc/tiu-mail",
-    "keywords": ["tiu", "tiu.ru", "mail", "parser"],
+    "name": "tpmanc/tiu-mailbox",
+    "keywords": ["tiu", "tiu.ru", "mail", "parser", "mailbox"],
     "description": "Get tiu.ru orders and messages from mailbox",
-    "homepage": "https://github.com/tpmanc/tiu-mail",
+    "homepage": "https://github.com/tpmanc/tiu-mailbox",
     "license": "BSD-3-Clause",
     "minimum-stability" : "dev",
     "authors": [
