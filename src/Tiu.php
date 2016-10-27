@@ -44,6 +44,9 @@ class Tiu
         if ($this->mailCount > 0) {
             $from = $this->mailCount - $this->mailLimit * ($pageNumber + 1) + 1;
             $to = $this->mailCount - $this->mailLimit * $pageNumber;
+
+            // $from = 0;
+            // $to = $this->mailCount;
             $overviews = imap_fetch_overview($this->stream, $from . ":" . $to, 0);
             foreach ($overviews as $overview) {
                 if (preg_match("/@tiu.ru/", $overview->from)) {
@@ -110,6 +113,11 @@ class Tiu
             return $matches[1];
         }
         return '';
+    }
+
+    public function getMailCount()
+    {
+        return $this->mailCount;
     }
 
     public function getMessages()
