@@ -4,7 +4,7 @@ Get tiu.ru orders and messages from mailbox.
 
 ## REQUIREMENTS
 
-* [php imap extension](http://php.net/manual/ru/imap.setup.php)
+* [php imap extension](http://php.net/manual/imap.setup.php)
 
 ## Install via Composer
 
