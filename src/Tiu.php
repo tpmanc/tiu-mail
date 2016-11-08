@@ -117,7 +117,7 @@ class Tiu
 
     private function getUsername($text)
     {
-        $urlRegexp = "/покупатель ([йцукенгшщзхъёэждлорпавыфячсмитьбюЙЦУКЕНГШЩЗХЪЁЭЖДЛОРПАВЫФЯЧСМИТЬБЮ]+) оформил/i";
+        $urlRegexp = "/покупатель ([йцукенгшщзхъёэждлорпавыфячсмитьбюЙЦУКЕНГШЩЗХЪЁЭЖДЛОРПАВЫФЯЧСМИТЬБЮ\s]+) оформил/i";
         preg_match($urlRegexp, $text, $matches);
         if (!empty($matches[1])) {
             return $matches[1];
