@@ -64,10 +64,10 @@ class Tiu
                     }
 
                     // check if order
-                    preg_match("/Номер нового заказа \— ([0-9]+)\s+</Ui", $body , $matches);
-                    if (!empty($matches[1])) {
-                        $id = $matches[1];
+                    preg_match("/заказ/Ui", $body , $matches);
+                    if (!empty($matches)) {
                         $link = $this->getLink($body);
+                        $id = $this->getId($link);
                         $username = $this->getUsername($body);
                         $this->orders[] = new Order($id, $link, $username);
                         continue;
@@ -76,6 +76,16 @@ class Tiu
             }
         }
         return $this;
+    }
+
+    private function getId($link)
+    {
+        $urlRegexp = "/\/order\/edit\/(\d+)/";
+        preg_match($urlRegexp, $link, $matches);
+        if (!empty($matches[1])) {
+            return $matches[1];
+        }
+        return false;
     }
 
     private function getLink($text)
