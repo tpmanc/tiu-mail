@@ -51,7 +51,14 @@ class Tiu
             foreach ($overviews as $overview) {
                 if (preg_match("/@tiu.ru/", $overview->from)) {
                     $body = imap_fetchbody($this->stream, $overview->msgno, 2);
-                    $body = base64_decode($body);
+                    $structure = imap_bodystruct($this->stream, $overview->msgno, 2);
+                    if ($structure->encoding == 3) {
+                        $body = base64_decode($body);
+                    } elseif ($structure->encoding == 1) {
+                        $body = imap_8bit($body);
+                    } else {
+                        $body = imap_qprint($body);
+                    }
                     
                     // check if message
                     preg_match("/Номер сообщения.+(\d+)\./Ui", $body, $matches);
