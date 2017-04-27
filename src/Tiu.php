@@ -64,17 +64,17 @@ class Tiu
                     preg_match("/Номер сообщения.+(\d+)\./Ui", $body, $matches);
                     if (!empty($matches[1])) {
                         $id = $matches[1];
-                        $link = $this->getLink($body);
+                        $link = $this->getMessageLink($body);
                         $title = $this->getTitle($body);
                         $this->messages[] = new Message($id, $link, $title);
                         continue;
                     }
 
                     // check if order
-                    preg_match("/Номер нового заказа \— ([0-9]+)\s+</Ui", $body , $matches);
-                    if (!empty($matches[1])) {
-                        $id = $matches[1];
-                        $link = $this->getLink($body);
+                    preg_match("/Обработать заказ/Ui", $body , $matches);
+                    if (!empty($matches[0])) {
+                        $link = $this->getOrderLink($body);
+                        $id = $this->getId($link);
                         $username = $this->getUsername($body);
                         $this->orders[] = new Order($id, $link, $username);
                         continue;
@@ -85,7 +85,17 @@ class Tiu
         return $this;
     }
 
-    private function getLink($text)
+    private function getId($link)
+    {
+        $urlRegexp = "/\/edit\/(\d+)/";
+        preg_match($urlRegexp, $link, $matches);
+        if (!empty($matches[1])) {
+            return $matches[1];
+        }
+        return false;
+    }
+
+    private function getOrderLink($text)
     {
         $urlRegexp = "/(http|https)\:\/\/my\.tiu\.ru\/cabinet\/order\/.*?(?=\s)/";
         preg_match($urlRegexp, $text, $matches);
@@ -97,6 +107,25 @@ class Tiu
             if (!empty($matches[0])) {
                 return $matches[0];
             } else {
+                var_dump($text);
+                throw new \Exception('Link not found');
+            }
+        }
+    }
+
+    private function getMessageLink($text)
+    {
+        $urlRegexp = "/(http|https)\:\/\/my\.tiu\.ru\/cabinet\/contact_now\/.*?(?=\s)/";
+        preg_match($urlRegexp, $text, $matches);
+        if (!empty($matches[0])) {
+            return $matches[0];
+        } else {
+            $urlRegexp = "/(http|https)\:\/\/tiu\.ru\/cabinet\/contact_now\/.*?(?=\s)/";
+            preg_match($urlRegexp, $text, $matches);
+            if (!empty($matches[0])) {
+                return $matches[0];
+            } else {
+                var_dump($text);
                 throw new \Exception('Link not found');
             }
         }
