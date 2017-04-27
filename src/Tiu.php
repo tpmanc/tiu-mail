@@ -64,10 +64,10 @@ class Tiu
                     }
 
                     // check if order
-                    preg_match("/заказ/Ui", $body , $matches);
-                    if (!empty($matches)) {
+                    preg_match("/Номер нового заказа \— ([0-9]+)\s+</Ui", $body , $matches);
+                    if (!empty($matches[1])) {
+                        $id = $matches[1];
                         $link = $this->getLink($body);
-                        $id = $this->getId($link);
                         $username = $this->getUsername($body);
                         $this->orders[] = new Order($id, $link, $username);
                         continue;
@@ -78,24 +78,14 @@ class Tiu
         return $this;
     }
 
-    private function getId($link)
-    {
-        $urlRegexp = "/\/order\/edit\/(\d+)/";
-        preg_match($urlRegexp, $link, $matches);
-        if (!empty($matches[1])) {
-            return $matches[1];
-        }
-        return false;
-    }
-
     private function getLink($text)
     {
-        $urlRegexp = "/(http|https)\:\/\/my\.tiu\.ru\/cabinet\/.*?(?=\s)/";
+        $urlRegexp = "/(http|https)\:\/\/my\.tiu\.ru\/cabinet\/order\/.*?(?=\s)/";
         preg_match($urlRegexp, $text, $matches);
         if (!empty($matches[0])) {
             return $matches[0];
         } else {
-            $urlRegexp = "/(http|https)\:\/\/tiu\.ru\/cabinet\/.*?(?=\s)/";
+            $urlRegexp = "/(http|https)\:\/\/tiu\.ru\/cabinet\/order\/.*?(?=\s)/";
             preg_match($urlRegexp, $text, $matches);
             if (!empty($matches[0])) {
                 return $matches[0];
@@ -117,7 +107,7 @@ class Tiu
 
     private function getUsername($text)
     {
-        $urlRegexp = "/покупатель ([йцукенгшщзхъёэждлорпавыфячсмитьбюЙЦУКЕНГШЩЗХЪЁЭЖДЛОРПАВЫФЯЧСМИТЬБЮ\s]+) оформил/i";
+        $urlRegexp = "/покупатель ([йцукенгшщзхъёэждлорпавыфячсмитьбюЙЦУКЕНГШЩЗХЪЁЭЖДЛОРПАВЫФЯЧСМИТЬБЮ]+) оформил/i";
         preg_match($urlRegexp, $text, $matches);
         if (!empty($matches[1])) {
             return $matches[1];
