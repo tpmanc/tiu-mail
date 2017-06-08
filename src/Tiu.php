@@ -5,7 +5,7 @@ use tpmanc\tiu\Order;
 use tpmanc\tiu\Message;
 
 /**
- * 
+ *
  */
 class Tiu
 {
@@ -61,7 +61,7 @@ class Tiu
                     }
                     
                     // check if message
-                    preg_match("/Номер сообщения.+(\d+)\./Ui", $body, $matches);
+                    preg_match("/омер сообщения.+(\d+)\./Ui", $body, $matches);
                     if (!empty($matches[1])) {
                         $id = $matches[1];
                         $link = $this->getMessageLink($body);
@@ -71,7 +71,7 @@ class Tiu
                     }
 
                     // check if order
-                    preg_match("/Обработать заказ/Ui", $body , $matches);
+                    preg_match("/бработать заказ/Ui", $body, $matches);
                     if (!empty($matches[0])) {
                         $link = $this->getOrderLink($body);
                         $id = $this->getId($link);
