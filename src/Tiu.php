@@ -125,6 +125,7 @@ class Tiu
             if (!empty($matches[0])) {
                 return $matches[0];
             } else {
+                return '';
                 var_dump($text);
                 throw new \Exception('Link not found');
             }
